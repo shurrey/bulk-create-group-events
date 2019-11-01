@@ -40,35 +40,44 @@ class AuthToken():
     def __init__(self, URL):
 
         #Example Only. Change to your key
-        self.KEY = "C4185313-B502-8AB5-9CFF-10529A2851A6"
+        self.KEY = "my-key"
         
         #Example Only. Change to your secret
-        self.SECRET = "ODJm2RrZy0pM24zFYaUc9lFx6wOcPWi9Z9YHG8ErUAfX6eomsx2NJIjSSSO3UIVq90vTaY23JOqXxezRKYIk8s9nJ5w5MaibVv"
+        self.SECRET = "my-secret"
 
-        aud = 'blackboard.smallworldlabs.com'
-        uid = '13'
+        #Example Only. Change to your community's FQDN
+        aud = 'mycommunity.smallworldlabs.com'
+
+        #User ID associated with your application
+        uid = 'my uid'
+
         scope = 'create delete read update'
+
         iat = datetime.datetime.utcnow()
         exp = iat + datetime.timedelta(seconds=60)
         print("exp: " + str(exp) + " iat: " + str(iat))
+        
         headers = {
-            'alg': 'HS256'
-            
+            'alg': 'HS256'    
         }
         print("HEADERS: " + str(headers))
+
         claims = {"iss" : self.KEY ,"sub" : uid ,"exp" : exp, "iat" : iat, "aud" : aud, "scope" : scope }
         print("CLAIMS: " + str(claims))
-        self.ASSERTION = jwt.encode(claims, self.SECRET)
         
+        self.ASSERTION = jwt.encode(claims, self.SECRET)
         print("ASSERTION: " + str(self.ASSERTION))
+        
         self.CREDENTIALS = 'urn:ietf:params:oauth:grant-type:jwt-bearer'
         print("CREDENTIALS: " + self.CREDENTIALS)
+        
         self.PAYLOAD = {
             'grant_type' : self.CREDENTIALS,
             'assertion' : self.ASSERTION
             
         }
         print("PAYLOAD: " + str(self.PAYLOAD))
+        
         self.TOKEN = None
         self.target_url = URL
         self.EXPIRES_AT = ''
@@ -88,11 +97,12 @@ class AuthToken():
 
         # Authenticate
             print("[auth:setToken] POST Request URL: " + OAUTH_URL)
-            #print("[auth:setToken] JSON Payload: \n" + json.dumps(self.PAYLOAD, indent=4, separators=(',', ': ')))
+            print("[auth:setToken] JSON Payload: \n" + json.dumps(self.PAYLOAD, indent=4, separators=(',', ': ')))
 
             r = session.post(OAUTH_URL, data=self.PAYLOAD, auth=(self.KEY, self.SECRET), verify=False)
 
             print("[auth:setToken()] STATUS CODE: " + str(r.status_code) )
+            
             #strip quotes from result for better dumps
             res = json.loads(r.text)
             print("[auth:setToken()] RESPONSE: \n" + json.dumps(res,indent=4, separators=(',', ': ')))
@@ -101,9 +111,9 @@ class AuthToken():
                 parsed_json = json.loads(r.text)
                 self.TOKEN = parsed_json['access_token']
                 self.EXPIRES = parsed_json['expires_in']
+            
                 m, s = divmod(self.EXPIRES, 60)
-                #h, m = divmod(m, 60)
-                #print "%d:%02d:%02d" % (h, m, s)
+            
                 self.NOW = datetime.datetime.now()
                 self.EXPIRES_AT = self.NOW + datetime.timedelta(seconds = s, minutes = m)
                 print ("[auth:setToken()] Token Expires at " + self.EXPIRES_AT.strftime("%H:%M:%S"))

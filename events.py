@@ -43,48 +43,9 @@ class Events():
         self.start = ''
         self.end = ''
         
-    # def execute(self, command, token):
-
-    #     if "create" in command:
-    #         print('[Event:execute] : ' + command)
-    #         self.createUser(token)
-    #     elif "read_all" in command:
-    #         print('[User:execute] : ' + command)
-    #         self.getUsers(token)
-    #     elif "read" in command:
-    #         print('[User:execute] : ' + command)
-    #         self.getUser(token)
-    #     elif "patch" in command:
-    #         print('[User:execute] : ' + command)
-    #         self.patchUser(token)
-    #     elif "put" in command:
-    #         print('[User:execute] : ' + command)
-    #         self.putUser(token)
-    #     elif "delete" in command:
-    #         print('[User:execute] : ' + command)
-    #         self.deleteUser(token)
-
     def getEventId(self):
         return self.event_id
 
-    # def getUsers(self, token):
-    #     print('[User:getUsers] token: ' + token)
-    #     #"Authorization: Bearer $token"
-    #     authStr = 'Bearer ' + token
-    #     print('[User:getUsers] authStr: ' + authStr)
-    #     session = requests.session()
-    #     session.mount('https://', Tls1Adapter()) # remove for production with commercial cert
-    #     print("[User:getUsers] GET Request URL: https://" + self.target_url + self.EVENTS_PATH)
-    #     print("[User:getUsers] JSON Payload: NONE REQUIRED")
-    #     r = session.get("https://" + self.target_url + self.EVENTS_PATH, headers={'Authorization':authStr}, verify=False)
-    #     print("[User:getUsers] STATUS CODE: " + str(r.status_code) )
-    #     print("[User:getUsers] RESPONSE:")
-    #     if r.text:
-    #         res = json.loads(r.text)
-    #         print(json.dumps(res,indent=4, separators=(',', ': ')))
-    #     else:
-    #         print("NONE")
-    
     def createEvent(self, start, end):
         print('[Event:createEvent] token: ' + self.token)
         
@@ -101,8 +62,8 @@ class Events():
 
         self.PAYLOAD = {
             "userId" : self.user_id,
-            "name" : "Technical Office Hours",
-            "description" : "A meeting for open discussion and occasional webinars for technically-minded Blackboard folks",
+            "name" : "My Event",
+            "description" : "My Event's Description",
             "startDate" : self.start,
             "endDate" : self.end,
             "public" : True,
@@ -113,7 +74,7 @@ class Events():
             "fields" : [
                 {
                     "id" : "6",
-                    "data" : "https://bit.ly/technical-office-hours"
+                    "data" : "https://bit.ly/my-link"
                 }
             ]
         }
@@ -131,99 +92,3 @@ class Events():
             print(json.dumps(res,indent=4, separators=(',', ': ')))
         else:
             print("NONE")
-            
-    # def approveEvent(self):
-    #     print('[Event:approveEvent] token: ' + self.token)
-        
-    #     #"Authorization: Bearer $token"
-    #     authStr = 'Bearer ' + self.token
-    #     print('[Event:approveEvent] authStr: ' + authStr)
-        
-    #     session = requests.session()
-    #     session.mount('https://', Tls1Adapter()) # remove for production with commercial cert
-        
-    #     print("[Event:approveEvent] PUT Request URL: " + self.target_url + self.EVENTS_PATH+ '/' + self.event_id)
-        
-    #     self.PAYLOAD = {
-    #         "userId" : self.user_id,
-    #         "name" : "Technical Office Hours",
-    #         "description" : "A meeting for open discussion and occasional webinars for technically-minded Blackboard folks",
-    #         "startDate" : self.start,
-    #         "endDate" : self.end,
-    #         "status" : "60"
-    #     }
-    #     print("[Event:approveEvent] JSON Payload: "  + str(self.PAYLOAD))
-        
-    #     r = session.patch(self.target_url + self.EVENTS_PATH + '/' + self.event_id, headers={ 'Authorization':authStr,'Content-Type':'application/json','Accept':'application/json' }, json=self.PAYLOAD, verify=False)
-        
-    #     print("[Event:approveEvent] STATUS CODE: " + str(r.status_code) )
-        
-    #     print("[Event:approveEvent] RESPONSE:")
-    #     if r.text:
-    #         res = json.loads(r.text)
-    #         print(json.dumps(res,indent=4, separators=(',', ': ')))
-    #     else:
-    #         print("NONE")
-            
-    # def putUser(self, token):
-    #     print('[User:putUser] token: ' + token)
-    #     #"Authorization: Bearer $token"
-    #     authStr = 'Bearer ' + token
-    #     print('[User:putUser] authStr: ' + authStr)
-    #     session = requests.session()
-    #     session.mount('https://', Tls1Adapter()) # remove for production with commercial cert
-    #     print("[User:putUser] PUT Request URL: https://" + self.target_url + self.USERS_PATH+ '/' + self.user_id)
-    #     self.PAYLOAD = {
-    #         'avatarUrl':'https://pbs.twimg.com/profile_images/735102198460256256/vYaCSp-p.jpg',
-    #         'lastName':'DeveloperDEMO',
-    #         'firstName' :'CollaborateAPI',
-    #         'displayName':'Collab API Demo',
-    #         'email':'scott.hurrey@blackboard.com'
-            
-    #     }
-    #     print("[User:putUser] JSON Payload: "  + str(self.PAYLOAD))
-        
-    #     r = session.put("https://" + self.target_url + self.USERS_PATH + '/' + self.user_id, headers={ 'Authorization':authStr,'Content-Type':'application/json','Accept':'application/json' }, json=self.PAYLOAD, verify=False)
-    #     print("[User:putUser] STATUS CODE: " + str(r.status_code) )
-    #     print("[User:putUser] RESPONSE:")
-    #     if r.text:
-    #         res = json.loads(r.text)
-    #         print(json.dumps(res,indent=4, separators=(',', ': ')))
-    #     else:
-    #         print("NONE")
-            
-    # def getUser(self, token):
-    #     print('[User:getUser] token: ' + token)
-    #     #"Authorization: Bearer $token"
-    #     authStr = 'Bearer ' + token
-    #     print('[User:getUser] authStr: ' + authStr)
-    #     session = requests.session()
-    #     session.mount('https://', Tls1Adapter()) # remove for production with commercial cert
-    #     print("[User:getUser] GET Request URL: https://" + self.target_url + self.USERS_PATH + '/' + self.user_id)
-    #     print("[User:getUser] JSON Payload: NONE REQUIRED")
-    #     r = session.get("https://" + self.target_url + self.USERS_PATH + '/' + self.user_id, headers={'Authorization':authStr}, verify=False)
-    #     print("[User:getUser] STATUS CODE: " + str(r.status_code) )
-    #     print("[User:getUser] RESPONSE:")
-    #     if r.text:
-    #         res = json.loads(r.text)
-    #         print(json.dumps(res,indent=4, separators=(',', ': ')))
-    #     else:
-    #         print("NONE")
-    
-    # def deleteUser(self, token):
-    #     print('[User:deleteUser] token: ' + token)
-    #     #"Authorization: Bearer $token"
-    #     authStr = 'Bearer ' + token
-    #     print('[User:deleteUser] authStr: ' + authStr)
-    #     session = requests.session()
-    #     session.mount('https://', Tls1Adapter()) # remove for production with commercial cert
-    #     print("[User:deleteUser] DELETE Request URL: https://" + self.target_url + self.USERS_PATH + '/' + self.user_id)
-    #     print("[User:deleteUser] JSON Payload: NONE REQUIRED")
-    #     r = session.delete("https://" + self.target_url + self.USERS_PATH + '/' + self.user_id, headers={'Authorization':authStr}, verify=False)
-    #     print("[User:deleteUser] STATUS CODE: " + str(r.status_code) )
-    #     print("[User:deleteUser] RESPONSE:")
-    #     if r.text:
-    #         res = json.loads(r.text)
-    #         print(json.dumps(res,indent=4, separators=(',', ': ')))
-    #     else:
-    #         print("NONE")

@@ -20,10 +20,10 @@ import getopt
 import datetime
 
 def main(argv):
-    URL = "https://blackboard.smallworldlabs.com/services/4.0"
-    UID = "13"
-    GID = "27"
-    CID = "31"
+    URL = "https://<my community GQDN>/services/4.0"
+    UID = "my UID"
+    GID = "my Group Id"
+    CID = "my Category Id"
     
     print ('\n[main] Acquiring auth token...\n')
     authorized_session = AuthToken(URL)
@@ -34,6 +34,7 @@ def main(argv):
 
     week = 0
 
+    #replace with your start date and time
     start = datetime.datetime(2019,11,20,11,0)
 
     while week < 52:
